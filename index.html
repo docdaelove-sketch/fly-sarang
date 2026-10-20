@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <title>날아라 사랑아! - 우주 젤리 디펜스</title>
+
+  <!-- 카카오톡 / SNS 링크 공유 시 사랑이 얼굴만 보이도록 설정한 OG 썸네일 -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="🚀 날아라 사랑아! - 우주 젤리 디펜스" />
+  <meta property="og:description" content="우주 최강 수호자 사랑이와 함께 알록달록 우주 젤리들을 팡팡 터뜨려요! 실시간 TOP 5 랭킹 도전!" />
+  <meta property="og:image" content="https://docdaelove-sketch.github.io/fly-sarang/thumbnail.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://docdaelove-sketch.github.io/fly-sarang/thumbnail.jpg" />
+  <link rel="icon" type="image/jpeg" href="sarang-face.jpg" />
+  <link rel="apple-touch-icon" href="sarang-face.jpg" />
+
+  <link rel="stylesheet" href="style.css" />
+  <!-- Google Fonts: 귀여운 한글 폰트 (Jua) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+  <!-- Three.js CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+  <!-- 세로 모드일 때 가로 회전 안내 오버레이 -->
+  <div id="rotate-notice">
+    <div class="rotate-box">
+      <img src="sarang-face.jpg" alt="사랑이" class="rotate-avatar" />
+      <div class="phone-icon">📱🔄</div>
+      <h2>스마트폰을 가로로 돌려주세요!</h2>
+      <p><strong>"날아라 사랑아"</strong>는 가로 화면에서 가장 재미있게 즐길 수 있어요.</p>
+    </div>
+  </div>
+
+  <!-- 3D 캔버스 컨테이너 -->
+  <div id="game-container"></div>
+
+  <!-- 1인칭 우주선 조종석 프레임 & 조준선 UI -->
+  <div id="cockpit-overlay">
+    <!-- 우주선 유리창 테두리 장식 -->
+    <div class="cockpit-frame-top"></div>
+    <div class="cockpit-frame-bottom">
+      <div class="dashboard-light left-light"></div>
+      <div class="dashboard-center">🚀 SARANG-HO MK.2 (HARD MODE)</div>
+      <div class="dashboard-light right-light"></div>
+    </div>
+
+    <!-- 상단 HUD (체력, 스테이지, 타이머, 킬수, 점수, BGM 버튼) -->
+    <div id="top-hud">
+      <div class="hud-left">
+        <div class="stage-badge" id="stage-display">STAGE 1 / 10</div>
+        <div class="hp-bar-wrap">
+          <span class="hp-icon">💖</span>
+          <div class="hp-bar-bg">
+            <div id="hp-bar-fill"></div>
+          </div>
+        </div>
+        <div class="stat-pill">👾 <span id="kill-display">0</span>마리</div>
+        <div class="stat-pill">⏱️ <span id="time-display">00:00</span></div>
+      </div>
+
+      <div class="hud-center">
+        <div id="score-display">0</div>
+        <div id="combo-display" class="hidden">0 COMBO!</div>
+      </div>
+
+      <div class="hud-right">
+        <div id="active-buffs"></div>
+        <button id="bgm-btn" class="active" title="배경음악 켜기/끄기">🎵 BGM</button>
+        <button id="gyro-cali-btn" title="현재 기울기를 중심으로 맞추기">🧭 영점</button>
+      </div>
+    </div>
+
+    <!-- 🏆 화면 좌측 상시 표시 실시간 공유 랭킹 (1등 ~ 5등) -->
+    <div id="live-leaderboard">
+      <div class="lb-header">
+        <span>🏆 실시간 TOP 5</span>
+        <span id="lb-sync-dot" class="sync-dot" title="실시간 동기화 중">●</span>
+      </div>
+      <ul id="lb-list">
+        <li class="lb-item"><span>🥇 1. -</span><span>0점</span></li>
+        <li class="lb-item"><span>🥈 2. -</span><span>0점</span></li>
+        <li class="lb-item"><span>🥉 3. -</span><span>0점</span></li>
+        <li class="lb-item"><span>4. -</span><span>0점</span></li>
+        <li class="lb-item"><span>5. -</span><span>0점</span></li>
+      </ul>
+      <div class="lb-Sub">합산: 처치점수 + 시간보너스</div>
+    </div>
+
+    <!-- 보스 체력바 (Stage 5 중간보스 / Stage 10 대왕보스) -->
+    <div id="boss-hud" class="hidden">
+      <div class="boss-title" id="boss-name-label">👑 대왕 왕관 젤리킹 👑</div>
+      <div class="boss-hp-bg">
+        <div id="boss-hp-fill"></div>
+      </div>
+    </div>
+
+    <!-- 비행 위치 맞춤 유도 경고 표시 (실제 우주선을 움직여야 맞출 수 있는 젤리 안내) -->
+    <div id="tilt-guide-alert" class="hidden">
+      🛸 <strong>우주선 비행 록온 젤리 등장!</strong> 폰을 기울여 우주선을 젤리 정면으로 이동시켜 쏘세요!
+    </div>
+
+    <!-- 조준점 (크로스헤어) -->
+    <div id="crosshair">
+      <div class="ch-ring"></div>
+      <div class="ch-dot"></div>
+      <div class="ch-line top"></div>
+      <div class="ch-line bottom"></div>
+      <div class="ch-line left"></div>
+      <div class="ch-line right"></div>
+    </div>
+
+    <!-- 재치있는 팝업 텍스트 컨테이너 -->
+    <div id="funny-text-layer"></div>
+
+    <!-- 🌟 스테이지 전환 대형 변화 알림 배너 -->
+    <div id="stage-banner" class="hidden">
+      <div class="banner-stage-tag" id="banner-tag">STAGE UP!</div>
+      <h1 id="banner-title">STAGE 1</h1>
+      <div id="banner-change-box">⚡ 새로운 변화: 초록 & 노란 젤리 출현!</div>
+      <p id="banner-sub">말랑말랑 젤리들을 모두 물리쳐요!</p>
+    </div>
+
+    <!-- 하단 컨트롤러: 왼손 조이스틱 & 오른손 발사/필살기 버튼 -->
+    <div id="controls-layer">
+      <!-- 왼손 가상 조이스틱 (조준 이동) -->
+      <div id="joystick-zone">
+        <div id="joystick-base">
+          <div id="joystick-stick">🎯</div>
+        </div>
+        <div class="control-label">왼손: 조준 이동</div>
+      </div>
+
+      <!-- 중앙 기울기 상태 표시 -->
+      <div id="tilt-indicator">
+        <div class="tilt-ship-icon" id="tilt-icon">🛸</div>
+        <span>폰을 기울여 우주선 이동!</span>
+      </div>
+
+      <!-- 오른손 슈팅 & 슈퍼스타 폭탄 버튼 -->
+      <div id="action-zone">
+        <button id="bomb-btn" class="action-btn bomb">
+          <span class="btn-emoji">🌟</span>
+          <span class="btn-text">슈퍼폭탄</span>
+          <span id="bomb-count" class="badge">2</span>
+        </button>
+        <button id="fire-btn" class="action-btn fire">
+          <span class="btn-emoji">🔥</span>
+          <span class="btn-text">발사!</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 시작 화면 모달 -->
+  <div id="start-screen" class="modal-screen">
+    <div class="modal-card">
+      <div class="hero-header">
+        <img src="sarang-face.jpg" alt="사랑이" class="sarang-hero-img" />
+        <div class="hero-titles">
+          <div class="title-badge">우주 최강 말랑말랑 슈팅 게임 (총 10스테이지!)</div>
+          <h1 class="game-title">🚀 날아라 사랑아!</h1>
+        </div>
+      </div>
+
+      <div class="nickname-row">
+        <label for="player-name">👩‍🚀 파일럿 이름:</label>
+        <input type="text" id="player-name" maxlength="8" placeholder="사랑이" value="사랑이" />
+      </div>
+
+      <p class="game-desc">
+        <strong>폰을 양옆/위아래로 기울여</strong> 우주선을 직접 비행하고,<br/>
+        <strong>왼손 조이스틱</strong>으로 조준해서 <strong>오른손 발사 버튼</strong>으로 팡팡 터뜨려 주세요!<br/>
+        <span class="highlight-tip">⚠️ <b>황금 방패 젤리(🛸표시)</b>는 우주선을 직접 기울여 정면으로 맞춰야 방패가 열려요!</span>
+      </p>
+
+      <div class="slime-guide">
+        <div class="slime-item"><span class="dot green"></span>초록 말랑이</div>
+        <div class="slime-item"><span class="dot yellow"></span>노란 통통이</div>
+        <div class="slime-item"><span class="dot purple"></span>보라 분열이</div>
+        <div class="slime-item"><span class="dot blue"></span>파란 실드맨</div>
+        <div class="slime-item"><span class="dot red"></span>빨간 폭탄이</div>
+        <div class="slime-item"><span class="dot gold"></span>🛸비행록온 젤리</div>
+      </div>
+
+      <div class="start-buttons">
+        <button id="start-btn" class="big-btn primary-btn">🎮 출동! 사랑호 출발!</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 엔딩 / 게임오버 화면 모달 -->
+  <div id="end-screen" class="modal-screen hidden">
+    <div class="modal-card">
+      <div id="end-badge" class="title-badge">MISSION CLEAR!</div>
+      <h1 id="end-title" class="game-title">🎉 우주 평화 수호 완료! 🎉</h1>
+      <div id="boss-quote-box" class="boss-quote">
+        "으악! 내 왕관이 젤리 푸딩이 되다니!!<br/>
+        사랑이 대장님, 다음엔 딸기맛 젤리로 다시 놀러 올게요~ 뿅!"
+      </div>
+
+      <!-- 점수 상세 합산표 (처치한 젤리 수 + 클리어 시간 보너스) -->
+      <div class="score-breakdown">
+        <div class="sb-row"><span>👾 물리친 젤리 수:</span> <strong id="end-kills">0마리</strong></div>
+        <div class="sb-row"><span>⏱️ 비행 및 클리어 시간:</span> <strong id="end-time">0초</strong></div>
+        <div class="sb-row"><span>⚡ 시간 & 스테이지 보너스:</span> <strong id="end-time-bonus">+0점</strong></div>
+        <div class="sb-total">🏆 최종 합산 랭킹 점수: <span id="final-score">0</span>점</div>
+      </div>
+
+      <button id="restart-btn" class="big-btn primary-btn">🔄 다시 출동해서 1등 도전!</button>
+    </div>
+  </div>
+
+  <!-- 폴더에 저장된 bgm.mp3 배경음악 자동 로드 -->
+  <audio id="bgm-audio" src="bgm.mp3" loop preload="auto"></audio>
+
+  <script src="game.js"></script>
+</body>
+</html>
