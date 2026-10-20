@@ -7,9 +7,14 @@
   -webkit-touch-callout: none;
 }
 
+:root {
+  --app-height: 100dvh;
+}
+
 html, body {
   width: 100%;
   height: 100%;
+  height: var(--app-height);
   overflow: hidden;
   background-color: #07051a;
   font-family: 'Jua', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -18,10 +23,10 @@ html, body {
 }
 
 #game-container {
-  position: absolute;
+  position: fixed;
   inset: 0;
   width: 100%;
-  height: 100%;
+  height: var(--app-height);
   z-index: 1;
 }
 
@@ -30,35 +35,36 @@ html, body {
   display: none;
   position: fixed;
   inset: 0;
+  height: var(--app-height);
   background: linear-gradient(135deg, #1b0c3b, #090418);
   z-index: 9999;
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 24px;
+  padding: 20px;
 }
 
 .rotate-box {
   background: rgba(255, 255, 255, 0.1);
   border: 3px solid #ff66cc;
   border-radius: 24px;
-  padding: 26px 22px;
-  max-width: 340px;
+  padding: 22px 20px;
+  max-width: 320px;
   box-shadow: 0 0 30px rgba(255, 102, 204, 0.4);
 }
 
 .rotate-avatar {
-  width: 96px;
-  height: 96px;
+  width: 84px;
+  height: 84px;
   border-radius: 50%;
   border: 3px solid #ffe600;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   object-fit: cover;
 }
 
 .phone-icon {
-  font-size: 2.8rem;
-  margin-bottom: 8px;
+  font-size: 2.4rem;
+  margin-bottom: 6px;
   animation: tiltPhone 1.8s infinite ease-in-out;
 }
 
@@ -75,8 +81,11 @@ html, body {
 
 /* 1인칭 조종석 오버레이 */
 #cockpit-overlay {
-  position: absolute;
-  inset: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--app-height);
   z-index: 10;
   pointer-events: none;
   overflow: hidden;
@@ -85,9 +94,9 @@ html, body {
 .cockpit-frame-top {
   position: absolute;
   top: 0;
-  left: 10%;
-  right: 10%;
-  height: 16px;
+  left: 12%;
+  right: 12%;
+  height: 10px;
   background: linear-gradient(90deg, transparent, rgba(0, 225, 255, 0.35), transparent);
   border-bottom: 2px solid rgba(0, 240, 255, 0.5);
   border-radius: 0 0 50% 50%;
@@ -96,32 +105,32 @@ html, body {
 .cockpit-frame-bottom {
   position: absolute;
   bottom: 0;
-  left: 20%;
-  right: 20%;
-  height: 32px;
+  left: 24%;
+  right: 24%;
+  height: 24px;
   background: linear-gradient(180deg, rgba(16, 26, 66, 0.85), rgba(8, 12, 34, 0.95));
-  border-top: 3px solid #00e5ff;
-  border-radius: 40px 40px 0 0;
+  border-top: 2px solid #00e5ff;
+  border-radius: 30px 30px 0 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 24px;
-  box-shadow: 0 -4px 20px rgba(0, 229, 255, 0.35);
+  padding: 0 18px;
+  box-shadow: 0 -4px 16px rgba(0, 229, 255, 0.35);
 }
 
 .dashboard-center {
-  font-size: 0.85rem;
+  font-size: 0.72rem;
   color: #7df9ff;
-  letter-spacing: 1.5px;
+  letter-spacing: 1px;
   text-shadow: 0 0 8px #00e5ff;
 }
 
 .dashboard-light {
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
   background: #ff44cc;
-  box-shadow: 0 0 10px #ff44cc;
+  box-shadow: 0 0 8px #ff44cc;
   animation: blinkLight 1.2s infinite alternate;
 }
 
@@ -133,9 +142,9 @@ html, body {
 /* 상단 HUD */
 #top-hud {
   position: absolute;
-  top: 8px;
-  left: 14px;
-  right: 14px;
+  top: 6px;
+  left: 10px;
+  right: 10px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -145,32 +154,33 @@ html, body {
 .hud-left {
   display: flex;
   align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
+  gap: 6px;
+  flex-wrap: nowrap;
 }
 
 .stage-badge {
   background: linear-gradient(135deg, #ff416c, #ff4b2b);
-  padding: 5px 12px;
+  padding: 3px 10px;
   border-radius: 999px;
-  font-size: 0.95rem;
-  border: 2px solid #fff;
-  box-shadow: 0 4px 12px rgba(255, 65, 108, 0.5);
+  font-size: 0.82rem;
+  border: 1.5px solid #fff;
+  box-shadow: 0 2px 8px rgba(255, 65, 108, 0.5);
+  white-space: nowrap;
 }
 
 .hp-bar-wrap {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 4px;
   background: rgba(0, 0, 0, 0.55);
-  padding: 4px 8px;
+  padding: 3px 7px;
   border-radius: 999px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
 }
 
 .hp-bar-bg {
-  width: 90px;
-  height: 12px;
+  width: 72px;
+  height: 10px;
   background: rgba(255, 255, 255, 0.15);
   border-radius: 99px;
   overflow: hidden;
@@ -186,10 +196,11 @@ html, body {
 .stat-pill {
   background: rgba(12, 20, 56, 0.78);
   border: 1.5px solid #00e5ff;
-  padding: 3px 9px;
+  padding: 2px 8px;
   border-radius: 99px;
-  font-size: 0.85rem;
+  font-size: 0.76rem;
   color: #e0ffff;
+  white-space: nowrap;
 }
 
 .hud-center {
@@ -198,38 +209,38 @@ html, body {
 }
 
 #score-display {
-  font-size: 1.85rem;
+  font-size: 1.55rem;
   color: #ffe600;
-  text-shadow: 0 3px 0 #b36b00, 0 0 14px rgba(255, 230, 0, 0.7);
+  text-shadow: 0 2px 0 #b36b00, 0 0 12px rgba(255, 230, 0, 0.7);
   line-height: 1;
 }
 
 #combo-display {
-  font-size: 0.92rem;
+  font-size: 0.8rem;
   color: #00ffcc;
   text-shadow: 0 0 8px #00ffcc;
-  margin-top: 2px;
 }
 
 .hud-right {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
 }
 
 #active-buffs {
   display: flex;
-  gap: 5px;
+  gap: 4px;
 }
 
 .buff-pill {
   background: rgba(0, 229, 255, 0.25);
-  border: 2px solid #00e5ff;
+  border: 1.5px solid #00e5ff;
   border-radius: 99px;
-  padding: 2px 8px;
-  font-size: 0.78rem;
+  padding: 2px 7px;
+  font-size: 0.72rem;
   color: #fff;
   animation: pulseBuff 0.8s infinite alternate;
+  white-space: nowrap;
 }
 
 @keyframes pulseBuff {
@@ -239,13 +250,14 @@ html, body {
 
 #bgm-btn, #gyro-cali-btn {
   background: rgba(255, 255, 255, 0.15);
-  border: 2px solid rgba(255, 255, 255, 0.5);
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
   color: #fff;
   font-family: 'Jua', sans-serif;
-  font-size: 0.8rem;
-  padding: 5px 10px;
-  border-radius: 12px;
+  font-size: 0.75rem;
+  padding: 4px 8px;
+  border-radius: 10px;
   cursor: pointer;
+  white-space: nowrap;
 }
 
 #bgm-btn.active {
@@ -256,14 +268,14 @@ html, body {
 /* 🏆 화면 좌측 상시 표시 실시간 TOP 5 랭킹 보드 */
 #live-leaderboard {
   position: absolute;
-  top: 50px;
-  left: 14px;
-  width: 176px;
-  background: rgba(10, 14, 42, 0.76);
-  border: 2px solid rgba(255, 230, 0, 0.65);
-  border-radius: 16px;
-  padding: 8px 10px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+  top: 40px;
+  left: 10px;
+  width: 154px;
+  background: rgba(10, 14, 42, 0.72);
+  border: 1.5px solid rgba(255, 230, 0, 0.65);
+  border-radius: 12px;
+  padding: 5px 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
   pointer-events: none;
   backdrop-filter: blur(4px);
 }
@@ -272,16 +284,16 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 0.85rem;
+  font-size: 0.76rem;
   color: #ffe600;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-  padding-bottom: 4px;
-  margin-bottom: 5px;
+  padding-bottom: 2px;
+  margin-bottom: 3px;
 }
 
 .sync-dot {
   color: #39ff14;
-  font-size: 0.75rem;
+  font-size: 0.68rem;
   animation: blinkLight 1s infinite alternate;
 }
 
@@ -289,17 +301,17 @@ html, body {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 2px;
 }
 
 .lb-item {
   display: flex;
   justify-content: space-between;
-  font-size: 0.78rem;
+  font-size: 0.7rem;
   color: #ffffff;
   background: rgba(255, 255, 255, 0.06);
-  padding: 2px 6px;
-  border-radius: 6px;
+  padding: 1.5px 5px;
+  border-radius: 5px;
 }
 
 .lb-item.me {
@@ -309,8 +321,8 @@ html, body {
 }
 
 .lb-Sub {
-  margin-top: 4px;
-  font-size: 0.65rem;
+  margin-top: 2px;
+  font-size: 0.58rem;
   color: #a6f6ff;
   text-align: center;
 }
@@ -318,28 +330,28 @@ html, body {
 /* 보스 체력바 */
 #boss-hud {
   position: absolute;
-  top: 52px;
+  top: 42px;
   left: 50%;
   transform: translateX(-50%);
-  width: min(390px, 55vw);
+  width: min(340px, 50vw);
   text-align: center;
 }
 
 .boss-title {
-  font-size: 1rem;
+  font-size: 0.88rem;
   color: #ffdf5d;
   text-shadow: 0 2px 6px #ff0055;
-  margin-bottom: 3px;
+  margin-bottom: 2px;
 }
 
 .boss-hp-bg {
   width: 100%;
-  height: 16px;
+  height: 13px;
   background: rgba(0, 0, 0, 0.65);
   border: 2px solid #ffdf5d;
   border-radius: 99px;
   overflow: hidden;
-  box-shadow: 0 0 16px rgba(255, 0, 100, 0.5);
+  box-shadow: 0 0 14px rgba(255, 0, 100, 0.5);
 }
 
 #boss-hp-fill {
@@ -352,16 +364,17 @@ html, body {
 /* 비행 록온 젤리 알림 */
 #tilt-guide-alert {
   position: absolute;
-  top: 96px;
+  top: 78px;
   left: 50%;
   transform: translateX(-50%);
-  background: rgba(255, 180, 0, 0.9);
+  background: rgba(255, 180, 0, 0.92);
   color: #1a0933;
-  padding: 5px 16px;
+  padding: 3px 12px;
   border-radius: 99px;
-  font-size: 0.85rem;
-  border: 2px solid #fff;
-  box-shadow: 0 0 18px rgba(255, 215, 0, 0.8);
+  font-size: 0.76rem;
+  border: 1.5px solid #fff;
+  box-shadow: 0 0 14px rgba(255, 215, 0, 0.8);
+  white-space: nowrap;
   animation: pulseBuff 0.6s infinite alternate;
 }
 
@@ -370,8 +383,8 @@ html, body {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 62px;
-  height: 62px;
+  width: 56px;
+  height: 56px;
   transform: translate(-50%, -50%);
   pointer-events: none;
 }
@@ -388,8 +401,8 @@ html, body {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
   background: #ff3399;
   border-radius: 50%;
   transform: translate(-50%, -50%);
@@ -402,10 +415,10 @@ html, body {
   box-shadow: 0 0 6px #00ffcc;
 }
 
-.ch-line.top { width: 3px; height: 10px; left: 50%; top: 0; transform: translateX(-50%); }
-.ch-line.bottom { width: 3px; height: 10px; left: 50%; bottom: 0; transform: translateX(-50%); }
-.ch-line.left { width: 10px; height: 3px; left: 0; top: 50%; transform: translateY(-50%); }
-.ch-line.right { width: 10px; height: 3px; right: 0; top: 50%; transform: translateY(-50%); }
+.ch-line.top { width: 3px; height: 9px; left: 50%; top: 0; transform: translateX(-50%); }
+.ch-line.bottom { width: 3px; height: 9px; left: 50%; bottom: 0; transform: translateX(-50%); }
+.ch-line.left { width: 9px; height: 3px; left: 0; top: 50%; transform: translateY(-50%); }
+.ch-line.right { width: 9px; height: 3px; right: 0; top: 50%; transform: translateY(-50%); }
 
 /* 재치있는 텍스트 팝업 */
 #funny-text-layer {
@@ -418,7 +431,7 @@ html, body {
 .funny-pop {
   position: absolute;
   transform: translate(-50%, -50%);
-  font-size: 1.3rem;
+  font-size: 1.15rem;
   font-weight: bold;
   white-space: nowrap;
   text-shadow: 0 3px 0 rgba(0, 0, 0, 0.75), 0 0 12px rgba(255, 255, 255, 0.6);
@@ -432,20 +445,20 @@ html, body {
   100% { opacity: 0; transform: translate(-50%, -130%) scale(0.85); }
 }
 
-/* 🌟 스테이지 대형 배너 (새로 생기는 변화 강조) */
+/* 🌟 스테이지 대형 배너 */
 #stage-banner {
   position: absolute;
-  top: 42%;
+  top: 44%;
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
   background: linear-gradient(180deg, rgba(28, 10, 68, 0.96), rgba(10, 4, 30, 0.96));
-  border: 4px solid #ffe600;
-  padding: 20px 36px;
-  border-radius: 30px;
-  box-shadow: 0 0 45px rgba(255, 230, 0, 0.75), inset 0 0 20px rgba(255, 42, 133, 0.4);
+  border: 3px solid #ffe600;
+  padding: 14px 26px;
+  border-radius: 24px;
+  box-shadow: 0 0 35px rgba(255, 230, 0, 0.75), inset 0 0 18px rgba(255, 42, 133, 0.4);
   z-index: 35;
-  min-width: min(500px, 82vw);
+  width: min(480px, 84vw);
   animation: bannerPop 0.35s cubic-bezier(0.18, 0.89, 0.32, 1.28);
 }
 
@@ -458,40 +471,40 @@ html, body {
   display: inline-block;
   background: #ff2a85;
   color: #fff;
-  padding: 3px 14px;
+  padding: 2px 12px;
   border-radius: 99px;
-  font-size: 0.9rem;
-  margin-bottom: 4px;
+  font-size: 0.8rem;
+  margin-bottom: 2px;
 }
 
 #banner-title {
-  font-size: clamp(2rem, 5vw, 2.8rem);
+  font-size: clamp(1.5rem, 4vw, 2.2rem);
   color: #ffe600;
-  text-shadow: 0 4px 0 #d9005b;
+  text-shadow: 0 3px 0 #d9005b;
 }
 
 #banner-change-box {
-  margin: 10px 0;
+  margin: 6px 0;
   background: rgba(0, 229, 255, 0.22);
   border: 2px dashed #00ffcc;
-  padding: 10px 16px;
-  border-radius: 16px;
-  font-size: clamp(1.05rem, 2.8vw, 1.35rem);
+  padding: 7px 12px;
+  border-radius: 12px;
+  font-size: clamp(0.9rem, 2.4vw, 1.15rem);
   color: #00ffcc;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
 }
 
 #banner-sub {
-  font-size: 1rem;
+  font-size: 0.88rem;
   color: #ffffff;
 }
 
 /* 하단 조작부 */
 #controls-layer {
   position: absolute;
-  bottom: 10px;
-  left: 18px;
-  right: 18px;
+  bottom: 6px;
+  left: 14px;
+  right: 14px;
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
@@ -507,12 +520,12 @@ html, body {
 }
 
 #joystick-base {
-  width: 124px;
-  height: 124px;
+  width: 102px;
+  height: 102px;
   border-radius: 50%;
   background: radial-gradient(circle, rgba(0, 229, 255, 0.22) 0%, rgba(16, 26, 68, 0.65) 100%);
   border: 3px solid rgba(0, 229, 255, 0.7);
-  box-shadow: 0 0 20px rgba(0, 229, 255, 0.35), inset 0 0 15px rgba(0, 229, 255, 0.25);
+  box-shadow: 0 0 16px rgba(0, 229, 255, 0.35), inset 0 0 12px rgba(0, 229, 255, 0.25);
   position: relative;
   display: flex;
   align-items: center;
@@ -521,16 +534,16 @@ html, body {
 }
 
 #joystick-stick {
-  width: 54px;
-  height: 54px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   background: radial-gradient(circle at 30% 30%, #ffffff, #00e5ff);
-  border: 3px solid #ffffff;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5), 0 0 14px #00e5ff;
+  border: 2.5px solid #ffffff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5), 0 0 10px #00e5ff;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.3rem;
+  font-size: 1.1rem;
   position: absolute;
   left: 50%;
   top: 50%;
@@ -538,25 +551,25 @@ html, body {
 }
 
 .control-label {
-  margin-top: 4px;
-  font-size: 0.78rem;
+  margin-top: 3px;
+  font-size: 0.7rem;
   color: #a6f6ff;
   text-shadow: 0 1px 3px #000;
 }
 
 /* 중앙 기울기 인디케이터 */
 #tilt-indicator {
-  margin-bottom: 26px;
+  margin-bottom: 22px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-size: 0.78rem;
+  font-size: 0.72rem;
   color: #ffccf2;
   opacity: 0.9;
 }
 
 .tilt-ship-icon {
-  font-size: 1.7rem;
+  font-size: 1.45rem;
   transition: transform 0.1s ease;
 }
 
@@ -564,7 +577,7 @@ html, body {
 #action-zone {
   display: flex;
   align-items: flex-end;
-  gap: 12px;
+  gap: 10px;
   pointer-events: auto;
 }
 
@@ -588,38 +601,38 @@ html, body {
 }
 
 .action-btn.fire {
-  width: 112px;
-  height: 112px;
+  width: 94px;
+  height: 94px;
   background: radial-gradient(circle at 35% 30%, #ff85b3, #ff1e62 65%, #a80038 100%);
-  border: 4px solid #fff;
-  box-shadow: 0 6px 24px rgba(255, 30, 98, 0.65), inset 0 4px 10px rgba(255, 255, 255, 0.5);
+  border: 3.5px solid #fff;
+  box-shadow: 0 5px 20px rgba(255, 30, 98, 0.65), inset 0 3px 8px rgba(255, 255, 255, 0.5);
 }
 
 .action-btn.fire .btn-emoji {
-  font-size: 1.95rem;
+  font-size: 1.65rem;
   line-height: 1;
 }
 
 .action-btn.fire .btn-text {
-  font-size: 1.1rem;
-  margin-top: 2px;
+  font-size: 0.95rem;
+  margin-top: 1px;
 }
 
 .action-btn.bomb {
-  width: 74px;
-  height: 74px;
+  width: 64px;
+  height: 64px;
   background: radial-gradient(circle at 35% 30%, #fff066, #ff9900 70%, #b35900 100%);
-  border: 3px solid #fff;
-  box-shadow: 0 4px 18px rgba(255, 165, 0, 0.6);
-  margin-bottom: 6px;
+  border: 2.5px solid #fff;
+  box-shadow: 0 4px 14px rgba(255, 165, 0, 0.6);
+  margin-bottom: 4px;
 }
 
 .action-btn.bomb .btn-emoji {
-  font-size: 1.3rem;
+  font-size: 1.15rem;
 }
 
 .action-btn.bomb .btn-text {
-  font-size: 0.74rem;
+  font-size: 0.68rem;
 }
 
 .action-btn .badge {
@@ -628,53 +641,63 @@ html, body {
   right: -4px;
   background: #ff0044;
   border: 2px solid #fff;
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.85rem;
+  font-size: 0.78rem;
 }
 
-/* 모달 화면 (시작 / 엔딩) */
+/* ============================================================================
+   📱 모달 화면 (시작 / 엔딩) - 모바일 가로 주소창 환경에서도 절대 안 짤리도록 설계
+   ============================================================================ */
 .modal-screen {
   position: fixed;
-  inset: 0;
-  background: radial-gradient(circle at center, rgba(35, 14, 78, 0.9), rgba(7, 4, 22, 0.97));
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--app-height);
+  background: radial-gradient(circle at center, rgba(35, 14, 78, 0.92), rgba(7, 4, 22, 0.98));
   z-index: 100;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 12px;
+  padding: 6px 12px;
 }
 
 .modal-card {
   background: linear-gradient(180deg, rgba(40, 22, 92, 0.96), rgba(18, 9, 46, 0.99));
-  border: 3px solid #ff66cc;
-  border-radius: 26px;
-  padding: 18px 24px;
-  max-width: 620px;
+  border: 2.5px solid #ff66cc;
+  border-radius: 20px;
+  padding: 12px 18px;
+  max-width: 600px;
   width: 100%;
+  max-height: calc(var(--app-height) - 12px);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
   text-align: center;
-  box-shadow: 0 0 40px rgba(255, 102, 204, 0.45);
+  box-shadow: 0 0 30px rgba(255, 102, 204, 0.45);
 }
 
 .hero-header {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 14px;
-  margin-bottom: 8px;
+  gap: 10px;
+  margin-bottom: 4px;
 }
 
 .sarang-hero-img {
-  width: 74px;
-  height: 74px;
+  width: 54px;
+  height: 54px;
   border-radius: 50%;
-  border: 3px solid #ffe600;
-  box-shadow: 0 0 16px #ff2a85;
+  border: 2.5px solid #ffe600;
+  box-shadow: 0 0 12px #ff2a85;
   object-fit: cover;
+  flex-shrink: 0;
 }
 
 .hero-titles {
@@ -685,45 +708,46 @@ html, body {
   display: inline-block;
   background: #00e5ff;
   color: #0b0620;
-  padding: 3px 12px;
+  padding: 2px 10px;
   border-radius: 99px;
-  font-size: 0.82rem;
-  margin-bottom: 4px;
+  font-size: 0.72rem;
+  margin-bottom: 2px;
 }
 
 .game-title {
-  font-size: clamp(1.6rem, 4vw, 2.3rem);
+  font-size: clamp(1.25rem, 3.5vw, 1.85rem);
   color: #ffe600;
-  text-shadow: 0 4px 0 #d92662, 0 0 20px rgba(255, 230, 0, 0.6);
+  text-shadow: 0 3px 0 #d92662, 0 0 14px rgba(255, 230, 0, 0.6);
+  line-height: 1.1;
 }
 
 .nickname-row {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  margin: 8px 0;
-  font-size: 0.95rem;
+  gap: 6px;
+  margin: 4px 0;
+  font-size: 0.85rem;
   color: #ffccf2;
 }
 
 #player-name {
   font-family: 'Jua', sans-serif;
-  font-size: 1rem;
-  padding: 5px 12px;
-  border-radius: 10px;
+  font-size: 0.9rem;
+  padding: 3px 10px;
+  border-radius: 8px;
   border: 2px solid #00e5ff;
   background: rgba(0, 0, 0, 0.45);
   color: #fff;
-  width: 140px;
+  width: 120px;
   text-align: center;
 }
 
 .game-desc {
-  font-size: clamp(0.82rem, 2vw, 0.96rem);
-  line-height: 1.4;
+  font-size: clamp(0.74rem, 1.8vw, 0.88rem);
+  line-height: 1.32;
   color: #e6d9ff;
-  margin-bottom: 10px;
+  margin-bottom: 6px;
 }
 
 .highlight-tip {
@@ -734,39 +758,39 @@ html, body {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 6px;
-  margin-bottom: 12px;
+  gap: 4px;
+  margin-bottom: 8px;
 }
 
 .slime-item {
   background: rgba(255, 255, 255, 0.1);
-  padding: 3px 9px;
+  padding: 2px 7px;
   border-radius: 99px;
-  font-size: 0.78rem;
+  font-size: 0.7rem;
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 4px;
 }
 
 .dot {
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
   display: inline-block;
 }
-.dot.green { background: #39ff14; box-shadow: 0 0 6px #39ff14; }
-.dot.yellow { background: #ffe600; box-shadow: 0 0 6px #ffe600; }
-.dot.purple { background: #c724ff; box-shadow: 0 0 6px #c724ff; }
-.dot.blue { background: #00e5ff; box-shadow: 0 0 6px #00e5ff; }
-.dot.red { background: #ff2a55; box-shadow: 0 0 6px #ff2a55; }
-.dot.gold { background: #ffaa00; box-shadow: 0 0 8px #ffe600; border: 1.5px solid #fff; }
+.dot.green { background: #39ff14; box-shadow: 0 0 5px #39ff14; }
+.dot.yellow { background: #ffe600; box-shadow: 0 0 5px #ffe600; }
+.dot.purple { background: #c724ff; box-shadow: 0 0 5px #c724ff; }
+.dot.blue { background: #00e5ff; box-shadow: 0 0 5px #00e5ff; }
+.dot.red { background: #ff2a55; box-shadow: 0 0 5px #ff2a55; }
+.dot.gold { background: #ffaa00; box-shadow: 0 0 6px #ffe600; border: 1.5px solid #fff; }
 
 .big-btn {
   font-family: 'Jua', sans-serif;
-  font-size: 1.2rem;
-  padding: 10px 28px;
+  font-size: 1.05rem;
+  padding: 8px 24px;
   border-radius: 99px;
-  border: 3px solid #fff;
+  border: 2.5px solid #fff;
   cursor: pointer;
   transition: transform 0.12s ease;
 }
@@ -778,44 +802,115 @@ html, body {
 .primary-btn {
   background: linear-gradient(90deg, #ff2a85, #ff7b00);
   color: #fff;
-  box-shadow: 0 6px 20px rgba(255, 42, 133, 0.6);
+  box-shadow: 0 4px 16px rgba(255, 42, 133, 0.6);
 }
 
 .boss-quote {
   background: rgba(255, 255, 255, 0.12);
   border: 2px dashed #ffe600;
-  border-radius: 16px;
-  padding: 10px;
-  margin: 8px 0;
-  font-size: 0.95rem;
+  border-radius: 12px;
+  padding: 7px 10px;
+  margin: 5px 0;
+  font-size: 0.82rem;
   color: #fff8b8;
-  line-height: 1.4;
+  line-height: 1.35;
 }
 
 .score-breakdown {
   background: rgba(0, 0, 0, 0.45);
-  border: 2px solid #00e5ff;
-  border-radius: 16px;
-  padding: 10px 16px;
-  margin-bottom: 12px;
+  border: 1.5px solid #00e5ff;
+  border-radius: 12px;
+  padding: 7px 12px;
+  margin-bottom: 8px;
   text-align: left;
 }
 
 .sb-row {
   display: flex;
   justify-content: space-between;
-  font-size: 0.92rem;
-  margin-bottom: 4px;
+  font-size: 0.8rem;
+  margin-bottom: 2px;
   color: #e0f7ff;
 }
 
 .sb-total {
   border-top: 1px solid rgba(255, 255, 255, 0.25);
-  padding-top: 6px;
-  margin-top: 6px;
-  font-size: 1.2rem;
+  padding-top: 4px;
+  margin-top: 4px;
+  font-size: 1rem;
   color: #ffe600;
   text-align: center;
+}
+
+/* 스마트폰 가로 모드에서 상하 주소창/네비게이션 바 때문에 높이가 매우 낮을 때 (예: 420px 이하) 초슬림 최적화 */
+@media screen and (max-height: 420px) {
+  .modal-card {
+    padding: 8px 14px;
+    max-width: 640px;
+  }
+  .sarang-hero-img {
+    width: 44px;
+    height: 44px;
+  }
+  .game-title {
+    font-size: 1.2rem;
+  }
+  .nickname-row {
+    margin: 3px 0;
+    font-size: 0.78rem;
+  }
+  #player-name {
+    font-size: 0.82rem;
+    padding: 2px 8px;
+  }
+  .game-desc {
+    font-size: 0.72rem;
+    line-height: 1.25;
+    margin-bottom: 4px;
+  }
+  .slime-guide {
+    margin-bottom: 5px;
+    gap: 3px;
+  }
+  .slime-item {
+    font-size: 0.65rem;
+    padding: 1.5px 6px;
+  }
+  .big-btn {
+    font-size: 0.95rem;
+    padding: 6px 20px;
+  }
+  #joystick-base {
+    width: 86px;
+    height: 86px;
+  }
+  #joystick-stick {
+    width: 38px;
+    height: 38px;
+    font-size: 0.95rem;
+  }
+  .action-btn.fire {
+    width: 80px;
+    height: 80px;
+  }
+  .action-btn.fire .btn-emoji {
+    font-size: 1.35rem;
+  }
+  .action-btn.fire .btn-text {
+    font-size: 0.82rem;
+  }
+  .action-btn.bomb {
+    width: 56px;
+    height: 56px;
+  }
+  #live-leaderboard {
+    top: 34px;
+    width: 140px;
+    padding: 4px 6px;
+  }
+  .lb-item {
+    font-size: 0.64rem;
+  }
 }
 
 .hidden {

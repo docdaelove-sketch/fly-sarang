@@ -602,12 +602,19 @@ class FlySarangGame {
     this.shipGroup.add(this.leftCannon, this.rightCannon);
 
     window.addEventListener('resize', () => this.onResize());
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', () => this.onResize());
+    }
+    this.onResize();
   }
 
   onResize() {
-    this.camera.aspect = window.innerWidth / window.innerHeight;
+    const vw = window.visualViewport ? window.visualViewport.width : window.innerWidth;
+    const vh = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+    document.documentElement.style.setProperty('--app-height', `${vh}px`);
+    this.camera.aspect = vw / vh;
     this.camera.updateProjectionMatrix();
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.renderer.setSize(vw, vh);
   }
 
   initControls() {
